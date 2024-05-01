@@ -22,10 +22,20 @@ spec:
           imagePullPolicy: Always
           command: [ "redis-server" ]
           args: [ "--appendonly", "yes" ]
+          resources:
+            limits:
+              cpu: 125m
+              ephemeral-storage: 512Mi
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 100Mi
+              memory: 100Mi
       volumes:
         - name: redis-data
           persistentVolumeClaim:
             claimName: redis-data
+
 
 ---
 apiVersion: v1

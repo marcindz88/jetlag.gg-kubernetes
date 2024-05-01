@@ -25,12 +25,12 @@ spec:
             - containerPort: 4000
           resources:
             limits:
-              cpu: 250m
+              cpu: 125m
               ephemeral-storage: 512Mi
               memory: 512Mi
             requests:
-              cpu: 125m
-              ephemeral-storage: 512Mi
+              cpu: 50m
+              ephemeral-storage: 256Mi
               memory: 256Mi
 
 ---
