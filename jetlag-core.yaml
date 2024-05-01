@@ -21,6 +21,9 @@ spec:
         - image: ghcr.io/marcindz88/jetlag/jetlag-core:latest
           imagePullPolicy: Always
           name: jetlag-core
+          env:
+            - name: GAME_REDIS_HOST
+              value: http://jetlag-redis.jetlag.svc.cluster.local
           ports:
             - containerPort: 9999
           resources:
@@ -54,8 +57,8 @@ metadata:
 spec:
   tls:
     - hosts:
-        - www.jetlag.gg
-        - jetlag.gg
+        - www.api.jetlag.gg
+        - api.jetlag.gg
       secretName: jetlag-cert
   rules:
     - host: www.api.jetlag.gg
