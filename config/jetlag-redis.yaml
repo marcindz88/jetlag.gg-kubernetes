@@ -20,6 +20,9 @@ spec:
           imagePullPolicy: Always
           command: [ "redis-server" ]
           args: [ "--appendonly", "yes" ]
+          volumeMounts:
+            - mountPath: "/data"
+              name: redis-data
           resources:
             limits:
               cpu: 125m
