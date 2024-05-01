@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jetlag-redis
+  labels:
+    app: jetlag-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jetlag-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jetlag-redis
+    spec:
+      containers:
+        - name: jetlag-redis
+          image: k8s.gcr.io/redis:e2e
+          imagePullPolicy: Always
+          command: [ "redis-server" ]
+          args: [ "--appendonly", "yes" ]
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: redis-data
+  name: redis-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jetlag-redis
+  name: jetlag-redis
+spec:
+  type: ClusterIP
+  selector:
+    app: jetlag-redis
+  ports:
+    - port: 6379
+      targetPort: 6379

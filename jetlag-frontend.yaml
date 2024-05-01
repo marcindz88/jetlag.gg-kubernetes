@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jetlag-frontend
+  labels:
+    app: jetlag-frontend
+  namespace: jetlag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jetlag-frontend
+  template:
+    metadata:
+      labels:
+        app: jetlag-frontend
+    spec:
+      imagePullSecrets:
+        - name: marcindz88-docker-registry
+      containers:
+        - name: frontend
+          image: ghcr.io/marcindz88/jetlag/jetlag-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          resources:
+            limits:
+              cpu: 250m
+              ephemeral-storage: 512Mi
+              memory: 512Mi
+            requests:
+              cpu: 125m
+              ephemeral-storage: 512Mi
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jetlag-frontend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: jetlag-frontend
+  ports:
+    - port: 80
+      targetPort: 4000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jetlag-frontend-service
+spec:
+  tls:
+    - hosts:
+        - www.jetlag.gg
+        - jetlag.gg
+      secretName: jetlag-cert
+  rules:
+    - host: www.jetlag.gg
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: jetlag-frontend-service
+                port:
+                  number: 80
+    - host: jetlag.gg
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: jetlag-frontend-service
+                port:
+                  number: 80
