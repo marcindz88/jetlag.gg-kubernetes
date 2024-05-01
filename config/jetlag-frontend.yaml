@@ -22,7 +22,7 @@ spec:
           image: ghcr.io/marcindz88/jetlag/jetlag-frontend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 4000
+            - containerPort: 80
           resources:
             limits:
               cpu: 125m
@@ -44,7 +44,7 @@ spec:
     app: jetlag-frontend
   ports:
     - port: 80
-      targetPort: 4000
+      targetPort: 80
 
 ---
 apiVersion: networking.k8s.io/v1
