@@ -45,4 +45,4 @@ kubectl get namespace "$NAMESPACE" &> /dev/null || kubectl create namespace "$NA
 
 create_or_update_kube_secret "marcindz88-docker-registry" "password" "GitHub Token" "$NAMESPACE"
 
-kubectl apply -f deployment.yaml -n "$NAMESPACE"
+kubectl apply -f config/ -n "$NAMESPACE"
