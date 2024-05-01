@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: jetlag-redis
-          image: k8s.gcr.io/redis:e2e
+          image: redis:7.0.2
           imagePullPolicy: Always
           command: [ "redis-server" ]
           args: [ "--appendonly", "yes" ]
