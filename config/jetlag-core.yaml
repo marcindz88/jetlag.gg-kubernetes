@@ -23,7 +23,7 @@ spec:
           name: jetlag-core
           env:
             - name: GAME_REDIS_HOST
-              value: http://jetlag-redis.jetlag.svc.cluster.local
+              value: jetlag-redis.jetlag.svc.cluster.local
           ports:
             - containerPort: 9999
           resources:
